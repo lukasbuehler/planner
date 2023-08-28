@@ -22,6 +22,8 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 
+import CalendarDayView from "./components/CalendarDayView";
+
 const darkTheme = createTheme({
   palette: {
     mode: "dark",
@@ -35,7 +37,7 @@ export default function Home() {
       <main className="h-full">
         <Box
           className="h-full flex"
-          sx={{ "flex-direction": { xs: "column", md: "row-reverse" } }}
+          sx={{ flexDirection: { xs: "column", md: "row-reverse" } }}
         >
           <Container maxWidth={false} className="grow">
             {/* no maximum width */}
@@ -66,6 +68,7 @@ export default function Home() {
               spacing={2}
               style={{ height: "calc(100% + 16px - 7rem)" }}
             >
+              {/* Side Bar */}
               <Grid item sx={{ display: { xl: "block", xs: "none" } }} xl={3}>
                 <Item className="h-full">
                   <Button>New Task</Button>
@@ -73,13 +76,21 @@ export default function Home() {
                   <Typography variant="h6">Study Buddies</Typography>
                 </Item>
               </Grid>
+
+              {/* Today Calendar View */}
               <Grid item xs={12} md={8} xl={6} className="">
                 <Item className="h-full">
-                  <Paper elevation={3} className="p-5 rounded-xl h-full">
+                  <Paper
+                    elevation={3}
+                    className="p-5 rounded-xl h-full flex flex-col items-start"
+                  >
                     <Chip label="Today" variant="outlined" />
+                    <CalendarDayView />
                   </Paper>
                 </Item>
               </Grid>
+
+              {/* Task Side Panel */}
               <Grid
                 item
                 sx={{ display: { md: "block", xs: "none" } }}
@@ -97,9 +108,9 @@ export default function Home() {
           <BottomNavigation
             showLabels
             sx={{
-              "flex-direction": { md: "column", xs: "row" },
+              flexDirection: { md: "column", xs: "row" },
               height: { xs: "auto", md: "100%" },
-              "justify-content": { xs: "center", md: "start" },
+              justifyContent: { xs: "center", md: "start" },
             }}
           >
             <BottomNavigationAction
