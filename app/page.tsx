@@ -22,13 +22,28 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 
-import CalendarDayView from "./components/CalendarDayView";
+import { CalendarDayView, Event } from "../components/CalendarDayView";
 
 const darkTheme = createTheme({
   palette: {
     mode: "dark",
   },
 });
+
+const events: Event[] = [
+  {
+    start: new Date(Date.parse("2022-01-01T09:00:00")),
+    end: new Date(Date.parse("2022-01-01T10:00:00")),
+  },
+  {
+    start: new Date(Date.parse("2022-01-01T11:00:00")),
+    end: new Date(Date.parse("2022-01-01T12:00:00")),
+  },
+  {
+    start: new Date(Date.parse("2022-01-01T15:00:00")),
+    end: new Date(Date.parse("2022-01-01T16:00:00")),
+  },
+];
 
 export default function Home() {
   return (
@@ -85,7 +100,18 @@ export default function Home() {
                     className="p-5 rounded-xl h-full flex flex-col items-start"
                   >
                     <Chip label="Today" variant="outlined" />
-                    <CalendarDayView />
+
+                    <div className="mt-3 grow flex flex-row w-full">
+                      {/* Calendar */}
+                      <div className="grow h-full mr-3">
+                        <CalendarDayView events={events} />
+                      </div>
+
+                      {/* Tracked Time */}
+                      <div className="grow h-full">
+                        <CalendarDayView events={[]} showHours={false} />
+                      </div>
+                    </div>
                   </Paper>
                 </Item>
               </Grid>
