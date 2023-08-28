@@ -1,12 +1,22 @@
 "use client";
 
 import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
+import TextField from "@mui/material/TextField";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Item from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
+import Chip from "@mui/material/Chip";
+import BottomNavigation from "@mui/material/BottomNavigation";
+import BottomNavigationAction from "@mui/material/BottomNavigationAction";
+import Button from "@mui/material/Button";
+
+// icons
+import RestoreIcon from "@mui/icons-material/Restore";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import MenuIcon from "@mui/icons-material/Menu";
 
 // dark mode
 import { ThemeProvider, createTheme } from "@mui/material/styles";
@@ -22,39 +32,99 @@ export default function Home() {
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
-      <main>
-        <Container maxWidth={false}>
-          {" "}
-          {/* no maximum width */}
-          <Grid container spacing={2}>
-            <Grid item sx={{ display: { xl: "block", xs: "none" } }} xl={3}>
-              <Item>
-                <Paper elevation={24}>
-                  <Typography variant="h5">Projects</Typography>
-                </Paper>
-              </Item>
-            </Grid>
-            <Grid item xs={12} md={8} xl={6}>
-              <Item>
-                <Paper elevation={24}>
-                  <Typography variant="h5">Today</Typography>
-                </Paper>
-              </Item>
+      <main className="h-full">
+        <Box
+          className="h-full flex"
+          sx={{ "flex-direction": { xs: "column", md: "row-reverse" } }}
+        >
+          <Container maxWidth={false} className="grow">
+            {/* no maximum width */}
+            <Grid container spacing={2} className="h-28 w-full">
+              <Grid
+                item
+                xs={0}
+                md={3}
+                sx={{ display: { md: "block", xs: "none" } }}
+              >
+                <Item className="w-full h-full py-4 flex items-center">
+                  <Typography variant="h4">Planner</Typography>
+                </Item>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Item className="w-full h-full py-4 flex items-center">
+                  <TextField
+                    id="search"
+                    variant="outlined"
+                    className="w-full"
+                    placeholder="Search"
+                  />
+                </Item>
+              </Grid>
             </Grid>
             <Grid
-              item
-              sx={{ display: { md: "block", xs: "none" } }}
-              md={4}
-              xl={3}
+              container
+              spacing={2}
+              style={{ height: "calc(100% + 16px - 7rem)" }}
             >
-              <Item>
-                <Paper elevation={24}>
-                  <Typography variant="h4">Tasks</Typography>
-                </Paper>
-              </Item>
+              <Grid item sx={{ display: { xl: "block", xs: "none" } }} xl={3}>
+                <Item className="h-full">
+                  <Button>New Task</Button>
+                  <Typography variant="h6">Projects</Typography>
+                  <Typography variant="h6">Study Buddies</Typography>
+                </Item>
+              </Grid>
+              <Grid item xs={12} md={8} xl={6} className="">
+                <Item className="h-full">
+                  <Paper elevation={3} className="p-5 rounded-xl h-full">
+                    <Chip label="Today" variant="outlined" />
+                  </Paper>
+                </Item>
+              </Grid>
+              <Grid
+                item
+                sx={{ display: { md: "block", xs: "none" } }}
+                md={4}
+                xl={3}
+              >
+                <Item className="h-full">
+                  <Paper elevation={3} className="p-5 rounded-xl h-full">
+                    <Typography variant="h5">Tasks</Typography>
+                  </Paper>
+                </Item>
+              </Grid>
             </Grid>
-          </Grid>
-        </Container>
+          </Container>
+          <BottomNavigation
+            showLabels
+            sx={{
+              "flex-direction": { md: "column", xs: "row" },
+              height: { xs: "auto", md: "100%" },
+              "justify-content": { xs: "center", md: "start" },
+            }}
+          >
+            <BottomNavigationAction
+              label=""
+              icon={<MenuIcon />}
+              className="grow-0 p-3 mb-5 mt-3"
+              sx={{ display: { xs: "none", md: "block" } }}
+            />
+            <BottomNavigationAction
+              label="Recents"
+              icon={<RestoreIcon />}
+              className="grow-0 p-3"
+            />
+            <BottomNavigationAction
+              label="Favorites"
+              icon={<FavoriteIcon />}
+              className="grow-0 p-3"
+            />
+            <BottomNavigationAction
+              label="Nearby"
+              icon={<LocationOnIcon />}
+              className="grow-0 p-3"
+            />
+          </BottomNavigation>
+        </Box>
       </main>
     </ThemeProvider>
   );
