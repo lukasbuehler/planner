@@ -1,16 +1,12 @@
 import Paper from "@mui/material/Paper";
-
-export interface Event {
-  start: Date;
-  end: Date;
-}
+import Event from "../models/Event";
 
 interface CalendarDayViewProps {
   events: Event[];
   showHours?: boolean;
 }
 
-export function CalendarDayView({
+export default function CalendarDayView({
   showHours = true,
   events,
 }: CalendarDayViewProps) {

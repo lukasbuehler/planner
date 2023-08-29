@@ -1,5 +1,7 @@
 "use client";
 
+import { useState, useEffect } from "react";
+
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Container from "@mui/material/Container";
@@ -22,7 +24,11 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 
-import { CalendarDayView, Event } from "../components/CalendarDayView";
+import CalendarDayView from "../components/CalendarDayView";
+import Event from "../models/Event";
+
+// Services
+import { getEventsForToday } from "../services/googleCalendarService";
 
 const darkTheme = createTheme({
   palette: {
@@ -30,29 +36,24 @@ const darkTheme = createTheme({
   },
 });
 
-const events: Event[] = [
-  {
-    start: new Date(Date.parse("2022-01-01T09:00:00")),
-    end: new Date(Date.parse("2022-01-01T10:00:00")),
-  },
-  {
-    start: new Date(Date.parse("2022-01-01T11:00:00")),
-    end: new Date(Date.parse("2022-01-01T12:00:00")),
-  },
-  {
-    start: new Date(Date.parse("2022-01-01T15:00:00")),
-    end: new Date(Date.parse("2022-01-01T16:00:00")),
-  },
-];
-
 export default function Home() {
+  const [events, setEvents] = useState<Event[]>([]);
+
+  useEffect(() => {
+    getEventsForToday().then((events) => {
+      setEvents(events);
+    });
+  }, []);
+
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
       <main className="h-full">
         <Box
           className="h-full flex"
-          sx={{ flexDirection: { xs: "column", md: "row-reverse" } }}
+          sx={{
+            flexDirection: { CalendarDayViewxs: "column", md: "row-reverse" },
+          }}
         >
           <Container maxWidth={false} className="grow">
             {/* no maximum width */}
