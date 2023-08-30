@@ -5,6 +5,8 @@ import Paper from "@mui/material/Paper";
 import Chip from "@mui/material/Chip";
 import Button from "@mui/material/Button";
 
+import TasksView from "@/components/TasksView";
+
 export default function DayOverviewLayout({
   children,
 }: {
@@ -34,7 +36,7 @@ export default function DayOverviewLayout({
       <Grid item sx={{ display: { md: "block", xs: "none" } }} md={4} xl={3}>
         <Item className="h-full">
           <Paper elevation={3} className="p-5 rounded-xl h-full">
-            <Typography variant="h5">Tasks</Typography>
+            <TasksView />
           </Paper>
         </Item>
       </Grid>

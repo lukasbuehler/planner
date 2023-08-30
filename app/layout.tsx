@@ -19,12 +19,11 @@ import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 
 // icons
-import RestoreIcon from "@mui/icons-material/Restore";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
 import MenuIcon from "@mui/icons-material/Menu";
+import { CalendarMonth, Home } from "@mui/icons-material";
 
 import ThemeRegistry from "../components/ThemeRegistry";
+import Link from "next/link.js";
 
 export default function RootLayout({
   children,
@@ -51,7 +50,9 @@ export default function RootLayout({
                     sx={{ display: { md: "block", xs: "none" } }}
                   >
                     <Item className="w-full h-full py-4 flex items-center">
-                      <Typography variant="h4">Planner</Typography>
+                      <Typography variant="h4">
+                        <Link href={"/"}>Planner</Link>
+                      </Typography>
                     </Item>
                   </Grid>
                   <Grid item xs={12} md={6}>
@@ -82,19 +83,18 @@ export default function RootLayout({
                   sx={{ display: { xs: "none", md: "block" } }}
                 />
                 <BottomNavigationAction
-                  label="Recents"
-                  icon={<RestoreIcon />}
+                  label="Home"
+                  icon={<Home />}
                   className="grow-0 p-3"
+                  component={Link}
+                  href={"/"}
                 />
                 <BottomNavigationAction
-                  label="Favorites"
-                  icon={<FavoriteIcon />}
+                  label="Day"
+                  icon={<CalendarMonth />}
                   className="grow-0 p-3"
-                />
-                <BottomNavigationAction
-                  label="Nearby"
-                  icon={<LocationOnIcon />}
-                  className="grow-0 p-3"
+                  component={Link}
+                  href={"/day"}
                 />
               </BottomNavigation>
             </Box>
