@@ -13,18 +13,35 @@ import IconButton from "@mui/material/IconButton";
 
 import { NavigateBefore, NavigateNext } from "@mui/icons-material";
 
+import ApiCalendar from "react-google-calendar-api";
+
+import { api_key } from "../../api_key_secret.json";
+import * as client_secret from "../../client_secret.json";
+
+const config = {
+  clientId: client_secret.web.client_id,
+  apiKey: api_key,
+
+  scope: "https://www.googleapis.com/auth/calendar",
+  discoveryDocs: [
+    "https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest",
+  ],
+};
+
+const apiCalendar = new ApiCalendar(config);
+
 export default function DayOverview() {
   const [plannedEvents, setPlannedEvents] = useState<Event[]>([
-    {
-      name: "Event 1",
-      start: new Date("2021-10-10T10:00:00"),
-      end: new Date("2021-10-10T11:00:00"),
-    },
-    {
-      name: "Event 2",
-      start: new Date("2021-10-10T12:00:00"),
-      end: new Date("2021-10-10T12:30:00"),
-    },
+    // {
+    //   name: "Event 1",
+    //   start: new Date("2021-10-10T10:00:00"),
+    //   end: new Date("2021-10-10T11:00:00"),
+    // },
+    // {
+    //   name: "Event 2",
+    //   start: new Date("2021-10-10T12:00:00"),
+    //   end: new Date("2021-10-10T12:30:00"),
+    // },
   ]);
   const [trackedEvents, setTrackedEvents] = useState<Event[]>([
     {
@@ -34,57 +51,9 @@ export default function DayOverview() {
     },
   ]);
 
-  // export async function getEventsForToday(): Promise<Event[]> {
-  //       const now = new Date();
-
-  //       // Set the start and end times for the events query.
-  //       const startOfDay = new Date(
-  //         now.getFullYear(),
-  //         now.getMonth(),
-  //         now.getDate()
-  //       );
-  //       const endOfDay = new Date(
-  //         now.getFullYear(),
-  //         now.getMonth(),
-  //         now.getDate() + 1
-  //       );
-
-  // Call the Google Calendar API to retrieve the events for today.
-  //   gapi.client.calendar.events
-  //     .list({
-  //       calendarId: "primary",
-  //       timeMin: startOfDay.toISOString(),
-  //       timeMax: endOfDay.toISOString(),
-  //       singleEvents: true,
-  //       orderBy: "startTime",
-  //     })
-  //     .then((response: any) => {
-  //       const events = response.result.items;
-  //       if (events?.length) {
-  //         console.log("Events for today:");
-  //         const events2: Event[] = events
-  //           .filter((event: any) => event?.start?.dateTime || event?.end?.date)
-  //           .map((event: any) => {
-  //             // both of those will never output empty strings because of the filter above
-  //             // typescript is just stupid and won't recognize that
-  //             const start: string =
-  //               event?.start?.dateTime || event?.start?.date || "";
-  //             const end: string =
-  //               event?.end?.dateTime || event?.end?.date || "";
-  //             console.log(`${start} - ${event.summary}`);
-
-  //             return {
-  //               //title: event.summary,
-  //               start: new Date(start),
-  //               end: new Date(end),
-  //             };
-  //           });
-  //         resolve(events2);
-  //       } else {
-  //         console.log("No events found for today.");
-  //       }
-  //     });
-  //}
+  apiCalendar.listUpcomingEvents(10).then(({ result }: any) => {
+    console.log(result.items);
+  });
 
   return (
     <Box className="h-full flex flex-col items-start">
