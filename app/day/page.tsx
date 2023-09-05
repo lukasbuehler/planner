@@ -13,23 +13,6 @@ import IconButton from "@mui/material/IconButton";
 
 import { NavigateBefore, NavigateNext } from "@mui/icons-material";
 
-import ApiCalendar from "react-google-calendar-api";
-
-import { api_key } from "../../api_key_secret.json";
-import * as client_secret from "../../client_secret.json";
-
-const config = {
-  clientId: client_secret.web.client_id,
-  apiKey: api_key,
-
-  scope: "https://www.googleapis.com/auth/calendar",
-  discoveryDocs: [
-    "https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest",
-  ],
-};
-
-const apiCalendar = new ApiCalendar(config);
-
 export default function DayOverview() {
   const [plannedEvents, setPlannedEvents] = useState<Event[]>([
     // {
@@ -50,10 +33,6 @@ export default function DayOverview() {
       end: new Date("2021-10-10T14:00:00"),
     },
   ]);
-
-  apiCalendar.listUpcomingEvents(10).then(({ result }: any) => {
-    console.log(result.items);
-  });
 
   return (
     <Box className="h-full flex flex-col items-start">
