@@ -1,23 +1,19 @@
 import Event from "../../models/Event";
-import getAccessToken from "./getAccessToken";
+import getAccessToken from "./auth";
 
-export default async function getEventsBetweenDates({
-  calendarId,
-  start,
-  end,
-}: {
-  calendarId: string;
-  start: Date;
-  end: Date;
-}): Promise<Event[]> {
+export default async function getEventsBetweenDates(
+  calendarId: string,
+  start: Date,
+  end: Date
+): Promise<Event[]> {
   const response = await fetch(
     `https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events`,
     {
       cache: "no-cache",
-      method: "GET",
+      method: "POST",
       headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${await getAccessToken()}`,
+        "Content-Type": "application/x-www-form-urlencoded",
+        Authorization: `Bearer ${getAccessToken()}`,
       },
       body: JSON.stringify({
         timeMin: start.toISOString(),
@@ -29,6 +25,8 @@ export default async function getEventsBetweenDates({
   );
 
   const eventsData = await response.json();
+
+  console.log(eventsData);
 
   // TODO
 

@@ -2,16 +2,16 @@
 
 import Chip from "@mui/material/Chip";
 
-import { useState } from "react";
+import { use, useEffect, useState } from "react";
 
-import CalendarDayView from "@/components/CalendarDayView";
-import Box from "@mui/material/Box";
-
-import Event from "@/models/Event";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
-
 import { NavigateBefore, NavigateNext } from "@mui/icons-material";
+
+import Event from "@/models/Event";
+import CalendarDayView from "@/components/CalendarDayView";
+import Box from "@mui/material/Box";
+import getEventsBetweenDates from "@/lib/google_calendar/events";
 
 export default function DayOverview() {
   const [plannedEvents, setPlannedEvents] = useState<Event[]>([
@@ -33,6 +33,16 @@ export default function DayOverview() {
       end: new Date("2021-10-10T14:00:00"),
     },
   ]);
+
+  useEffect(() => {
+    getEventsBetweenDates("", new Date(), new Date())
+      .then((events) => {
+        setPlannedEvents(events);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
 
   return (
     <Box className="h-full flex flex-col items-start">
