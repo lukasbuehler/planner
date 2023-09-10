@@ -4,15 +4,19 @@ import { Box, Typography } from "@mui/material";
 
 interface CalendarDayViewProps {
   name: string;
+  date: Date;
   events: Event[];
   showHours?: boolean;
 }
 
 export default function CalendarDayView({
   name,
-  showHours = true,
+  date,
   events,
+  showHours = true,
 }: CalendarDayViewProps) {
+  const utcOffsetMs = date.getTimezoneOffset() * 60 * 1000;
+
   return (
     <div className="relative w-full h-full flex flex-row">
       {/* Calendar Hours */}
@@ -21,11 +25,20 @@ export default function CalendarDayView({
           {/* Padding */}
           <div className="h-6"></div>
           <div className="relative grow flex flex-col items-stretch justify-between mr-1">
-            {Array.from({ length: 25 }).map((_, i) => (
-              <span key={i} className="text-xs text-right">
-                {i % 24}:00
-              </span>
-            ))}
+            {Array.from({ length: 25 }).map((_, i) => {
+              const hour = new Date();
+              hour.setHours(i);
+              hour.setMinutes(0);
+              hour.setSeconds(0);
+              return (
+                <span key={i} className="text-xs text-right">
+                  {hour.toLocaleTimeString([], {
+                    hour: "numeric",
+                    minute: "2-digit",
+                  })}
+                </span>
+              );
+            })}
           </div>
         </Box>
       ) : null}
@@ -50,7 +63,7 @@ export default function CalendarDayView({
           </div>
 
           {/* Calendar items */}
-          <div className="absolute w-full h-full">
+          <div className="absolute w-full h-full overflow-clip">
             {events.map((event, i) => (
               <Paper
                 key={i}
@@ -58,11 +71,11 @@ export default function CalendarDayView({
                 className="absolute rounded-xl left-1 right-1 bg-red-600 overflow-hidden"
                 style={{
                   top: `calc(100% * ${
-                    (event.start.getHours() * 60 + event.start.getMinutes()) /
-                    (60 * 24)
+                    (event.start.getTime() - date.getTime()) /
+                    (1000 * 60 * 60 * 24)
                   })`,
                   height: `calc(100% * ${
-                    Math.abs(event.end.getTime() - event.start.getTime()) /
+                    (event.end.getTime() - event.start.getTime()) /
                     (1000 * 60 * 60 * 24)
                   })`,
                 }}

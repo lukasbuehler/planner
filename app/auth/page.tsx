@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { redirect } from "next/navigation";
-import getScopes from "@/lib/google_calendar/scopes";
+import { getScopes } from "@/lib/google_calendar/scopes";
 
 export default function Auth() {
   useEffect(() => {
@@ -21,10 +21,12 @@ export default function Auth() {
       console.log("access_token", dataMap["access_token"]);
       localStorage.setItem("access_token", dataMap["access_token"]);
 
-      // check that the scopes are correct
-      if (dataMap["scope"].trim() !== getScopes().trim()) {
-        // not good
-        console.error("Scopes don't match");
+      // check that the strings from getScopes are in the recieved scopes
+      for (const scope of getScopes().split(" ")) {
+        // check that the scope is a substring
+        if (!dataMap["scope"].includes(scope.trim())) {
+          console.error("scope not found", scope);
+        }
       }
 
       // redirect from page that placed the auth request.

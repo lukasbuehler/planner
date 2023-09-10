@@ -2,8 +2,7 @@
 
 const REDIRECT_URI = "http://localhost:3000/auth";
 
-import { usePathname } from "next/navigation";
-import getScopes from "./scopes";
+import { getScopes } from "./scopes";
 
 /**
  * Opens a new tab for the user to sign in to Google and grant access to the app.
@@ -11,7 +10,11 @@ import getScopes from "./scopes";
  * Follows the steps outlined in the Google Calendar API Quickstart guide:
  * https://developers.google.com/identity/protocols/oauth2/javascript-implicit-flow#obtainingaccesstokens
  */
-function oauthSignIn(redirectPath: string) {
+export function authenticateIfNecessary(redirectPath: string): void {
+  if (getAccessToken()) {
+    return;
+  }
+
   // Google's OAuth 2.0 endpoint for requesting an access token
   var oauth2Endpoint = "https://accounts.google.com/o/oauth2/v2/auth";
 
@@ -44,15 +47,13 @@ function oauthSignIn(redirectPath: string) {
   form.submit();
 }
 
-export default function getAccessToken(): string | null {
+export function getAccessToken(): string | null {
   const accessToken = localStorage.getItem("access_token");
 
   if (accessToken) {
-    console.log("Access token found in local storage");
     return accessToken;
   } else {
     console.log("Access token not found in local storage");
-    oauthSignIn(usePathname());
     return null;
   }
 }

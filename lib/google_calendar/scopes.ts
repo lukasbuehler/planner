@@ -1,3 +1,3 @@
-export default function getScopes(): string {
+export function getScopes(): string {
   return "https://www.googleapis.com/auth/calendar.readonly";
 }
