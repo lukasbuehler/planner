@@ -2,7 +2,6 @@ import Grid from "@mui/material/Grid";
 import Item from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
-import Chip from "@mui/material/Chip";
 import Button from "@mui/material/Button";
 
 import TasksView from "@/components/TasksView";

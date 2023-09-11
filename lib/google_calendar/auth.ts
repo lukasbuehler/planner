@@ -47,6 +47,12 @@ export function authenticateIfNecessary(redirectPath: string): void {
   form.submit();
 }
 
+export function reauthenticate(redirectPath: string): void {
+  console.log("Reauthenticating");
+  localStorage.removeItem("access_token");
+  authenticateIfNecessary(redirectPath);
+}
+
 export function getAccessToken(): string | null {
   const accessToken = localStorage.getItem("access_token");
 

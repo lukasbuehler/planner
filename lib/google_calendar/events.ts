@@ -21,7 +21,7 @@ export async function getEventsBetweenDates(
         orderBy: "startTime",
       }),
     {
-      cache: "no-cache",
+      cache: "force-cache",
       method: "GET",
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -29,9 +29,14 @@ export async function getEventsBetweenDates(
     }
   );
 
-  const eventsData = await response.json();
+  if (!response.ok) {
+    if (response.status === 401) {
+      // try to refresh token
+      throw new Error("Unauthorized");
+    }
+  }
 
-  console.log(eventsData);
+  const eventsData = await response.json();
 
   return eventsData.items.map((item: any) => {
     return {

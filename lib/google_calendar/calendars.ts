@@ -16,13 +16,20 @@ export async function getCalendars(): Promise<Calendar[]> {
         showHidden: "false",
       }),
     {
-      cache: "no-cache",
+      cache: "force-cache",
       method: "GET",
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     }
   );
+
+  if (!response.ok) {
+    if (response.status === 401) {
+      // try to refresh token
+      throw new Error("Unauthorized");
+    }
+  }
 
   const calendarsData = await response.json();
 

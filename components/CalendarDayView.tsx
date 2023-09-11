@@ -91,15 +91,17 @@ export default function CalendarDayView({
           </div>
 
           {/* Calendar time pointer */}
-          <div
-            className="absolute w-full h-0.5 bg-gray-300"
-            style={{
-              top: `calc(100% * ${
-                (new Date().getHours() * 60 + new Date().getMinutes()) /
-                (60 * 24)
-              })`,
-            }}
-          ></div>
+          {new Date().toDateString() === date.toDateString() ? (
+            <div
+              className="absolute w-full h-0.5 bg-gray-300"
+              style={{
+                top: `calc(100% * ${
+                  (new Date().getHours() * 60 + new Date().getMinutes()) /
+                  (60 * 24)
+                })`,
+              }}
+            ></div>
+          ) : null}
         </Box>
       </div>
     </div>
