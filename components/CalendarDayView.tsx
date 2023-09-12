@@ -1,6 +1,6 @@
 import Paper from "@mui/material/Paper";
 import Event from "@/models/Event";
-import { Box, Typography } from "@mui/material";
+import { Box, Chip, Typography } from "@mui/material";
 
 interface CalendarDayViewProps {
   name: string;
@@ -23,7 +23,7 @@ export default function CalendarDayView({
       {showHours ? (
         <Box className="h-full flex flex-col">
           {/* Padding */}
-          <div className="h-6"></div>
+          <div className="h-8"></div>
           <div className="relative grow flex flex-col items-stretch justify-between mr-1">
             {Array.from({ length: 25 }).map((_, i) => {
               const hour = new Date();
@@ -35,6 +35,7 @@ export default function CalendarDayView({
                   {hour.toLocaleTimeString([], {
                     hour: "numeric",
                     minute: "2-digit",
+                    hour12: false, // todo change when locale is working
                   })}
                 </span>
               );
@@ -45,9 +46,9 @@ export default function CalendarDayView({
 
       {/* Calendar */}
       <div className="grow relative flex flex-col  items-center">
-        <Box className="relative h-6 w-full">
+        <Box className="relative h-8 w-full">
           <Box className="absolute left-0 right-0 top-0 bottom-0 text-center">
-            {name}
+            <Chip label={name} variant="outlined" className="relative" />
           </Box>
         </Box>
 

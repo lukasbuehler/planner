@@ -1,7 +1,5 @@
 "use client";
 
-import Chip from "@mui/material/Chip";
-
 import { useEffect, useState } from "react";
 
 import { usePathname } from "next/navigation";
@@ -101,7 +99,7 @@ export default function DayOverview() {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Box className="h-full flex flex-col items-start">
-        <Box className="w-full flex flex-row justify-between items-center pb-3">
+        <Box className="w-full flex flex-row justify-between items-center">
           <IconButton onClick={decrementDay}>
             <NavigateBefore />
           </IconButton>
@@ -110,14 +108,7 @@ export default function DayOverview() {
             aria-describedby={id}
             onClick={handleClick}
           >
-            {today.toDateString() === selectedDay.toDateString() ? (
-              <Chip label="Today" variant="outlined" className="mr-3" />
-            ) : (
-              ""
-            )}
-            <Typography variant={"h4"}>
-              {selectedDay.toLocaleDateString() || ""}
-            </Typography>
+            <Typography variant={"h4"}>{selectedDay.toDateString()}</Typography>
           </ButtonBase>
           <Popover
             id={id}
@@ -147,7 +138,7 @@ export default function DayOverview() {
           </IconButton>
         </Box>
 
-        <div className="mt-3 grow flex flex-row w-full">
+        <div className="mt-1 grow flex flex-row w-full">
           {/* Calendar */}
           <div className="grow h-full">
             <CalendarDayView
