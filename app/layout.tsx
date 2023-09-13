@@ -1,5 +1,6 @@
 import "./globals.css";
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Inter } from "next/font/google";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -23,7 +24,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { CalendarMonth, Home } from "@mui/icons-material";
 
 import ThemeRegistry from "../components/ThemeRegistry";
-import Link from "next/link.js";
+import CurrentlyTracking from "../components/CurrentlyTracking";
 
 export default function RootLayout({
   children,
@@ -56,13 +57,8 @@ export default function RootLayout({
                     </Item>
                   </Grid>
                   <Grid item xs={12} md={6}>
-                    <Item className="w-full h-full py-4 flex items-center">
-                      <TextField
-                        id="search"
-                        variant="outlined"
-                        className="w-full"
-                        placeholder="Search"
-                      />
+                    <Item className="h-full py-4 flex items-center">
+                      <CurrentlyTracking></CurrentlyTracking>
                     </Item>
                   </Grid>
                 </Grid>

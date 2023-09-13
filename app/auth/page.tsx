@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { redirect } from "next/navigation";
-import { getScopes } from "@/lib/google_calendar/scopes";
+import { getScopes } from "@/lib/plan/google_calendar/scopes";
 
 export default function Auth() {
   useEffect(() => {

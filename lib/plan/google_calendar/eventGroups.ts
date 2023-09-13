@@ -1,8 +1,8 @@
 import { getAccessToken } from "./auth";
 
-import Calendar from "../../models/Calendar";
+import EventGroup from "../../../models/EventGroup";
 
-export async function getCalendars(): Promise<Calendar[]> {
+export async function getCalendars(): Promise<EventGroup[]> {
   const accessToken: string | null = getAccessToken();
 
   if (!accessToken) {

@@ -13,12 +13,12 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import Event from "@/models/Event";
 import CalendarDayView from "@/components/CalendarDayView";
 import Box from "@mui/material/Box";
-import { getEventsBetweenDates } from "@/lib/google_calendar/events";
-import { getCalendars } from "@/lib/google_calendar/calendars";
+import { getEventsBetweenDates } from "@/lib/plan/google_calendar/events";
+import { getCalendars } from "@/lib/plan/google_calendar/eventGroups";
 import {
   authenticateIfNecessary,
   reauthenticate,
-} from "@/lib/google_calendar/auth";
+} from "@/lib/plan/google_calendar/auth";
 import { ButtonBase, Paper, Popover } from "@mui/material";
 import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 import dayjs, { Dayjs } from "dayjs";
