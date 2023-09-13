@@ -76,7 +76,8 @@ export default function CalendarDayView({
                     (1000 * 60 * 60 * 24)
                   })`,
                   height: `calc(100% * ${
-                    (event.end.getTime() - event.start.getTime()) /
+                    ((event.end ? event.end.getTime() : new Date().getTime()) -
+                      event.start.getTime()) /
                     (1000 * 60 * 60 * 24)
                   })`,
                 }}

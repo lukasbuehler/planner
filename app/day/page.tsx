@@ -22,6 +22,7 @@ import {
 import { ButtonBase, Paper, Popover } from "@mui/material";
 import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 import dayjs, { Dayjs } from "dayjs";
+import { getCurrentlyTracking } from "@/lib/track/toggl/currentlyTracking";
 
 export default function DayOverview() {
   const now = new Date();
@@ -47,6 +48,7 @@ export default function DayOverview() {
     const nextDay = new Date(selectedDay);
     nextDay.setDate(nextDay.getDate() + 1);
 
+    // get planned events
     getCalendars()
       .then((calendars) => {
         // get all events for all calendars for today
@@ -67,6 +69,15 @@ export default function DayOverview() {
         } else {
           console.error(err);
         }
+      });
+
+    // get tracked events
+    getCurrentlyTracking()
+      .then((event) => {
+        setTrackedEvents(event ? [event] : []);
+      })
+      .catch((err) => {
+        console.error(err);
       });
   }, [selectedDay]);
 

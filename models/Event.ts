@@ -1,5 +1,6 @@
 export default interface Event {
   name: string;
   start: Date;
-  end: Date;
+  end: Date | null;
+  project?: string;
 }
