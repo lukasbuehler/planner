@@ -13,13 +13,8 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import Event from "@/models/Event";
 import CalendarDayView from "@/components/CalendarDayView";
 import Box from "@mui/material/Box";
-import { getEventsBetweenDates } from "@/lib/plan/google_calendar/events";
-import { getCalendars } from "@/lib/plan/google_calendar/eventGroups";
-import {
-  authenticateIfNecessary,
-  reauthenticate,
-} from "@/lib/plan/google_calendar/auth";
-import { ButtonBase, Paper, Popover } from "@mui/material";
+import GoogleCalendar from "@/lib/plan/GoogleCalendar";
+import { ButtonBase, Popover } from "@mui/material";
 import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 import dayjs, { Dayjs } from "dayjs";
 import { getCurrentlyTracking } from "@/lib/track/toggl/currentlyTracking";
@@ -42,30 +37,25 @@ export default function DayOverview() {
 
   const pathname = usePathname();
 
+  const googleCalendar = new GoogleCalendar();
+
   useEffect(() => {
-    authenticateIfNecessary(pathname);
+    if (!googleCalendar.isAuthenticated()) {
+      googleCalendar.authenticate(pathname);
+    }
 
     const nextDay = new Date(selectedDay);
     nextDay.setDate(nextDay.getDate() + 1);
 
     // get planned events
-    getCalendars()
-      .then((calendars) => {
-        // get all events for all calendars for today
-
-        const promises = calendars.map((calendar) => {
-          return getEventsBetweenDates(calendar.id, selectedDay, nextDay);
-        });
-
-        Promise.all(promises).then((events) => {
-          const allEvents = events.flat();
-
-          setPlannedEvents(allEvents);
-        });
+    googleCalendar
+      .getAllEventsBetweenDates(selectedDay, nextDay)
+      .then((events: Event[]) => {
+        setPlannedEvents(events);
       })
       .catch((err) => {
         if (err.message === "Unauthorized") {
-          reauthenticate(pathname);
+          googleCalendar.authenticate(pathname);
         } else {
           console.error(err);
         }
