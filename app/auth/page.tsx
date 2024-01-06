@@ -19,7 +19,7 @@ export default function Auth() {
       });
 
       // get access token
-      console.log("access_token", dataMap["access_token"]);
+      console.log("got access_token:", dataMap["access_token"]);
       localStorage.setItem("access_token", dataMap["access_token"]);
 
       // check that the strings from getScopes are in the recieved scopes

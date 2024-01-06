@@ -7,7 +7,7 @@ export default class GoogleCalendar extends AbstractPlanService {
    * Redirects the user to the Google OAuth 2.0 endpoint to sign in and grant access to the app.
    */
   public authenticate(originPath: string): void {
-    if (GoogleCalendar._getAccessTokenFromBrowserMemory()) {
+    if (!GoogleCalendar._getAccessTokenFromBrowserMemory()) {
       // reauthenticate
       localStorage.removeItem("access_token");
     }

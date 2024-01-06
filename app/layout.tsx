@@ -52,7 +52,7 @@ export default function RootLayout({
                   >
                     <Item className="w-full h-full py-4 flex items-center">
                       <Typography variant="h4">
-                        <Link href={"/"}>Planner</Link>
+                        <Link href={"/"}>planorario</Link>
                       </Typography>
                     </Item>
                   </Grid>
@@ -69,15 +69,16 @@ export default function RootLayout({
                 sx={{
                   flexDirection: { md: "column", xs: "row" },
                   height: { xs: "auto", md: "100%" },
+                  paddingTop: { xs: "0px", md: "96px" },
                   justifyContent: { xs: "center", md: "start" },
                 }}
               >
-                <BottomNavigationAction
+                {/* <BottomNavigationAction
                   label=""
                   icon={<MenuIcon />}
                   className="grow-0 p-3 mb-5 mt-3"
                   sx={{ display: { xs: "none", md: "block" } }}
-                />
+                /> */}
                 <BottomNavigationAction
                   label="Home"
                   icon={<Home />}
@@ -86,7 +87,7 @@ export default function RootLayout({
                   href={"/"}
                 />
                 <BottomNavigationAction
-                  label="Day"
+                  label="Schedule"
                   icon={<CalendarMonth />}
                   className="grow-0 p-3"
                   component={Link}
