@@ -1,3 +1,4 @@
 
 GET https://www.googleapis.com/calendar/v3/users/me/calendarList?minAccessRole=owner&showHidden=false
-Authorization: Bearer ya29.a0AfB_byCMZhYH2-ZefiUQ6pI-PR6-rWwdFW__j0W5-uIZj0BZswrAmo_zrlIXdM-bpBJCclDKqA48tmWexWGSQhM11Qv4xRxEbtydcGM-tzcJcAVNpkcxUjEKpveNztv9gGu_zPH50JmTXubgE_VGFU2-_8j-Gb1WpwaCgYKAXsSARISFQHGX2MiC9xvIyOjmhOfzDpZMIM6gw0169
+Authorization: Bearer access_token
+```
