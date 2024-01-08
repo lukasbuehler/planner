@@ -133,9 +133,6 @@ export default class GoogleCalendar extends AbstractPlanService {
       }
     }
 
-    console.log("Successful calendar request");
-    console.log(response);
-
     const calendarsData = await response.json();
 
     return calendarsData.items.map((item: any) => {
@@ -172,8 +169,6 @@ export default class GoogleCalendar extends AbstractPlanService {
         },
       }
     );
-
-    console.log(response);
 
     if (!response.ok) {
       if (response.status === 401) {

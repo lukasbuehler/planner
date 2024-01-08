@@ -19,10 +19,9 @@ export default class TogglTrack extends AbstractTrackService {
       }
     );
     if (response.ok) {
-      console.log("Successfully authenticated toggl");
       this.hasSession = true;
     } else {
-      console.error("Failed to authenticate toggl");
+      console.warn("Failed to authenticate toggl");
       this.hasSession = false;
     }
   }

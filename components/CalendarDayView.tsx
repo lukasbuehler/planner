@@ -1,6 +1,7 @@
 import Paper from "@mui/material/Paper";
 import Event from "@/models/Event";
 import { Box, Chip, Typography } from "@mui/material";
+import { useState, useEffect } from "react";
 
 interface CalendarDayViewProps {
   name: string;
@@ -17,6 +18,24 @@ export default function CalendarDayView({
 }: CalendarDayViewProps) {
   const utcOffsetMs = date.getTimezoneOffset() * 60 * 1000;
 
+  const [hours, setHours] = useState<string[]>(Array<string>(25));
+
+  useEffect(() => {
+    const hours = Array<string>(25);
+    for (let i = 0; i < 25; i++) {
+      const hour = new Date();
+      hour.setHours(i % 24);
+      hour.setMinutes(0);
+      hour.setSeconds(0);
+      hours[i] = hour.toLocaleTimeString([], {
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: false, // TODO change when locale is working
+      });
+    }
+    setHours(hours);
+  }, []);
+
   return (
     <div className="relative w-full h-full flex flex-row">
       {/* Calendar Hours */}
@@ -26,17 +45,9 @@ export default function CalendarDayView({
           <div className="h-8"></div>
           <div className="relative grow flex flex-col items-stretch justify-between mr-1">
             {Array.from({ length: 25 }).map((_, i) => {
-              const hour = new Date();
-              hour.setHours(i % 24);
-              hour.setMinutes(0);
-              hour.setSeconds(0);
               return (
                 <span key={i} className="text-xs text-right">
-                  {hour.toLocaleTimeString([], {
-                    hour: "numeric",
-                    minute: "2-digit",
-                    hour12: false, // TODO change when locale is working
-                  })}
+                  {hours[i]}
                 </span>
               );
             })}
