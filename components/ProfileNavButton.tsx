@@ -1,8 +1,8 @@
 "use client";
 
 import GoogleCalendar from "@/lib/plan/GoogleCalendar";
-import { Person } from "@mui/icons-material";
-import { Button, IconButton, Typography } from "@mui/material";
+import { Close, Person } from "@mui/icons-material";
+import { Box, Button, IconButton, Typography } from "@mui/material";
 import { useGoogleLogin, useGoogleOAuth } from "@react-oauth/google";
 import { useEffect, useState } from "react";
 
@@ -17,8 +17,13 @@ export default function ProfileNavButton() {
   }, [isAuthenticated]);
 
   return (
-    <IconButton onClick={() => googleCalendar.authenticate()}>
-      <Person />
-    </IconButton>
+    <Box>
+      <IconButton onClick={() => googleCalendar.authenticate()}>
+        <Person />
+      </IconButton>
+      <IconButton onClick={() => googleCalendar.logout()}>
+        <Close />
+      </IconButton>
+    </Box>
   );
 }

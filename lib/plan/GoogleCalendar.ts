@@ -120,19 +120,21 @@ export default class GoogleCalendar extends AbstractPlanService {
         cache: "force-cache",
         method: "GET",
         headers: {
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: "Bearer " + accessToken,
         },
       }
     );
 
-    console.log(response);
-
     if (!response.ok) {
+      console.error(response);
       if (response.status === 401) {
         // try to refresh token
         throw new Error("Unauthorized");
       }
     }
+
+    console.log("Successful calendar request");
+    console.log(response);
 
     const calendarsData = await response.json();
 

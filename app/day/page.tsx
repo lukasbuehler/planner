@@ -42,26 +42,27 @@ export default function DayOverview() {
   const googleCalendar = new GoogleCalendar();
 
   useEffect(() => {
-    if (!googleCalendar.isAuthenticated()) {
-      googleCalendar.authenticate(pathname);
-    }
-
     const nextDay = new Date(selectedDay);
     nextDay.setDate(nextDay.getDate() + 1);
 
     // get planned events
-    googleCalendar
-      .getAllEventsBetweenDates(selectedDay, nextDay)
-      .then((events: Event[]) => {
-        setPlannedEvents(events);
-      })
-      .catch((err) => {
-        if (err.message === "Unauthorized") {
-          googleCalendar.authenticate(pathname);
-        } else {
-          console.error(err);
-        }
-      });
+    if (googleCalendar.isAuthenticated()) {
+      googleCalendar
+        .getAllEventsBetweenDates(selectedDay, nextDay)
+        .then((events: Event[]) => {
+          setPlannedEvents(events);
+        })
+        .catch((err) => {
+          if (err.message === "Unauthorized") {
+            //googleCalendar.authenticate(pathname);
+            console.error("Unauthorized", err);
+          } else {
+            console.error(err);
+          }
+        });
+    } else {
+      console.log("Not authenticated");
+    }
 
     // get tracked events
     getCurrentlyTracking()
