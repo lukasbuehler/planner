@@ -1,26 +1,63 @@
 import Event from "@/models/Event";
 import EventGroup from "@/models/EventGroup";
 import AbstractPlanService from "./AbstractPlanService";
+import {
+  hasGrantedAllScopesGoogle,
+  googleLogout,
+  useGoogleLogin,
+} from "@react-oauth/google";
 
 export default class GoogleCalendar extends AbstractPlanService {
-  /**
-   * Redirects the user to the Google OAuth 2.0 endpoint to sign in and grant access to the app.
-   */
-  public authenticate(originPath: string): void {
-    if (!GoogleCalendar._getAccessTokenFromBrowserMemory()) {
-      // reauthenticate
-      localStorage.removeItem("access_token");
-    }
+  login = useGoogleLogin({
+    flow: "implicit",
+    onSuccess: async (credentialResponse) => {
+      this.handleAuthResponse(credentialResponse);
 
-    GoogleCalendar._redirectToAuthenticate(originPath);
+      console.log("success login");
+    },
+    onError: (errorResponse) => console.log(errorResponse),
+  });
+
+  public authenticate(originPath?: string): void {
+    // if (this.isAuthenticated()) {
+    //   this.logout();
+    // }
+
+    this.login();
   }
 
   public isAuthenticated(): boolean {
     return GoogleCalendar._getAccessTokenFromBrowserMemory() !== null;
   }
 
+  public logout(): void {
+    localStorage.removeItem("access_token");
+    googleLogout();
+    console.log("Successfully logged out");
+  }
+
+  public handleAuthResponse(response: any): void {
+    console.log(response);
+    if (!response.access_token) {
+      throw new Error("No access token found in response");
+    } else {
+      const scopeArr: string[] = GoogleCalendar.scopes.split(" ");
+
+      const hasAccess = hasGrantedAllScopesGoogle(
+        response,
+        "https://www.googleapis.com/auth/calendar.readonly"
+      );
+
+      if (!hasAccess) {
+        throw new Error("Not all scopes granted");
+      }
+
+      localStorage.setItem("access_token", response.access_token);
+      console.log("Successfully authenticated");
+    }
+  }
+
   /**
-   *
    * @param start
    * @param end
    * @returns
@@ -65,49 +102,6 @@ export default class GoogleCalendar extends AbstractPlanService {
     }
   }
 
-  /**
-   * Opens a new tab for the user to sign in to Google and grant access to the app.
-   *
-   * Follows the steps outlined in the Google Calendar API Quickstart guide:
-   * https://developers.google.com/identity/protocols/oauth2/javascript-implicit-flow#obtainingaccesstokens
-   */
-  private static _redirectToAuthenticate(originPath: string): void {
-    if (GoogleCalendar._getAccessTokenFromBrowserMemory()) {
-      return;
-    }
-
-    // Google's OAuth 2.0 endpoint for requesting an access token
-    var oauth2Endpoint = "https://accounts.google.com/o/oauth2/v2/auth";
-
-    const params = {
-      client_id: process.env.NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_ID || "",
-      redirect_uri: GoogleCalendar._REDIRECT_URI,
-      response_type: "token",
-      scope: GoogleCalendar._SCOPES,
-      include_granted_scopes: "true",
-      state: originPath,
-    };
-
-    // Create <form> element to submit parameters to OAuth 2.0 endpoint.
-    var form = document.createElement("form");
-    form.setAttribute("method", "GET"); // Send as a GET request.
-    form.setAttribute("action", oauth2Endpoint);
-
-    // Add form parameters as hidden input values.
-    for (var p in params) {
-      var input = document.createElement("input");
-      input.setAttribute("type", "hidden");
-      input.setAttribute("name", p);
-      input.setAttribute("value", params[p as keyof typeof params]);
-
-      form.appendChild(input);
-    }
-
-    // Add form to page and submit it to open the OAuth 2.0 endpoint.
-    document.body.appendChild(form);
-    form.submit();
-  }
-
   private static async getCalendars(): Promise<EventGroup[]> {
     const accessToken: string | null =
       GoogleCalendar._getAccessTokenFromBrowserMemory();
@@ -130,6 +124,8 @@ export default class GoogleCalendar extends AbstractPlanService {
         },
       }
     );
+
+    console.log(response);
 
     if (!response.ok) {
       if (response.status === 401) {
@@ -174,6 +170,8 @@ export default class GoogleCalendar extends AbstractPlanService {
         },
       }
     );
+
+    console.log(response);
 
     if (!response.ok) {
       if (response.status === 401) {

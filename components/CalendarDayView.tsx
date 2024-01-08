@@ -27,7 +27,7 @@ export default function CalendarDayView({
           <div className="relative grow flex flex-col items-stretch justify-between mr-1">
             {Array.from({ length: 25 }).map((_, i) => {
               const hour = new Date();
-              hour.setHours(i);
+              hour.setHours(i % 24);
               hour.setMinutes(0);
               hour.setSeconds(0);
               return (
@@ -35,7 +35,7 @@ export default function CalendarDayView({
                   {hour.toLocaleTimeString([], {
                     hour: "numeric",
                     minute: "2-digit",
-                    hour12: false, // todo change when locale is working
+                    hour12: false, // TODO change when locale is working
                   })}
                 </span>
               );

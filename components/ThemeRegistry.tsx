@@ -6,6 +6,7 @@ import { CacheProvider } from "@emotion/react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { useState } from "react";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 // This implementation is from emotion-js
 // https://github.com/emotion-js/emotion/issues/2928#issuecomment-1319747902
@@ -64,10 +65,12 @@ export default function ThemeRegistry(props: {
 
   return (
     <CacheProvider value={cache}>
-      <ThemeProvider theme={darkTheme}>
-        <CssBaseline />
-        {children}
-      </ThemeProvider>
+      <GoogleOAuthProvider clientId="430856471593-8kb9brct6fh1j1lrj1h38le0uhmjc59g.apps.googleusercontent.com">
+        <ThemeProvider theme={darkTheme}>
+          <CssBaseline />
+          {children}
+        </ThemeProvider>
+      </GoogleOAuthProvider>
     </CacheProvider>
   );
 }

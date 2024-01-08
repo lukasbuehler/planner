@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { redirect } from "next/navigation";
-import GoogleCalendar from "@/lib/plan/GoogleCalendar";
+// import GoogleCalendar from "@/lib/plan/GoogleCalendar";
 
 export default function Auth() {
   useEffect(() => {
