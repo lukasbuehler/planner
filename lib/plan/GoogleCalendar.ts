@@ -18,7 +18,7 @@ export default class GoogleCalendar extends AbstractPlanService {
     onError: (errorResponse) => console.log(errorResponse),
   });
 
-  public authenticate(originPath?: string): void {
+  public async authenticate(originPath?: string): Promise<void> {
     // if (this.isAuthenticated()) {
     //   this.logout();
     // }
@@ -30,7 +30,7 @@ export default class GoogleCalendar extends AbstractPlanService {
     return GoogleCalendar._getAccessTokenFromBrowserMemory() !== null;
   }
 
-  public logout(): void {
+  public async logout(): Promise<void> {
     localStorage.removeItem("access_token");
     googleLogout();
     console.log("Successfully logged out");
@@ -117,7 +117,7 @@ export default class GoogleCalendar extends AbstractPlanService {
           showHidden: "false",
         }),
       {
-        cache: "force-cache",
+        //cache: "force-cache",
         method: "GET",
         headers: {
           Authorization: "Bearer " + accessToken,
@@ -165,10 +165,10 @@ export default class GoogleCalendar extends AbstractPlanService {
           orderBy: "startTime",
         }),
       {
-        cache: "force-cache",
+        //cache: "force-cache",
         method: "GET",
         headers: {
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: "Bearer " + accessToken,
         },
       }
     );

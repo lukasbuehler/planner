@@ -17,9 +17,7 @@ import GoogleCalendar from "@/lib/plan/GoogleCalendar";
 import { ButtonBase, Popover } from "@mui/material";
 import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 import dayjs, { Dayjs } from "dayjs";
-import { getCurrentlyTracking } from "@/lib/track/toggl/currentlyTracking";
-
-import { GoogleLogin } from "@react-oauth/google";
+import TogglTrack from "@/lib/track/TogglTrack";
 
 export default function DayOverview() {
   const now = new Date();
@@ -40,6 +38,7 @@ export default function DayOverview() {
   const pathname = usePathname();
 
   const googleCalendar = new GoogleCalendar();
+  const toggl = new TogglTrack();
 
   useEffect(() => {
     const nextDay = new Date(selectedDay);
@@ -65,9 +64,14 @@ export default function DayOverview() {
     }
 
     // get tracked events
-    getCurrentlyTracking()
-      .then((event) => {
-        setTrackedEvents(event ? [event] : []);
+    if (!toggl.isAuthenticated()) {
+      toggl.authenticate(pathname);
+    }
+
+    toggl
+      .getAllActivitiesBetweenDates(selectedDay, nextDay)
+      .then((events: Event[]) => {
+        setTrackedEvents(events);
       })
       .catch((err) => {
         console.error(err);

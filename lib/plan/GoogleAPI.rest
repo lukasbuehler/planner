@@ -1,4 +1,0 @@
-
-GET https://www.googleapis.com/calendar/v3/users/me/calendarList?minAccessRole=owner&showHidden=false
-Authorization: Bearer access_token
-```

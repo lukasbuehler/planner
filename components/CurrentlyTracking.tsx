@@ -1,10 +1,10 @@
 "use client";
 
-import { getCurrentlyTracking } from "@/lib/track/toggl/currentlyTracking";
 import { Stop } from "@mui/icons-material";
 import { IconButton, Paper, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import Event from "@/models/Event";
+import TogglTrack from "@/lib/track/TogglTrack";
 
 export default function CurrentlyTracking() {
   const [trackingEvent, setTrackingEvent] = useState<Event | null>(null);
@@ -14,9 +14,11 @@ export default function CurrentlyTracking() {
   };
 
   const updateTracking = () => {
-    getCurrentlyTracking()
+    const toggl = new TogglTrack();
+
+    toggl
+      .getCurrentActivity()
       .then((event) => {
-        console.log(event);
         setTrackingEvent(event);
       })
       .catch((error) => {
