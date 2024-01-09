@@ -80,7 +80,7 @@ export default function CalendarDayView({
               <Paper
                 key={i}
                 elevation={5}
-                className="absolute rounded-xl left-1 right-1 bg-red-600 overflow-hidden"
+                className="absolute rounded-xl left-1 right-1 overflow-hidden"
                 style={{
                   top: `calc(100% * ${
                     (event.start.getTime() - date.getTime()) /
@@ -91,14 +91,21 @@ export default function CalendarDayView({
                       event.start.getTime()) /
                     (1000 * 60 * 60 * 24)
                   })`,
+                  backgroundColor: event.project?.color ?? "#dc2626",
                 }}
               >
-                <Typography
-                  variant="caption"
-                  className="block w-full p-2 truncate"
-                >
-                  {event.name}
-                </Typography>
+                <Box className="block w-full p-2 truncate">
+                  {event.name ? (
+                    <Typography variant="caption" className="pr-2">
+                      {event.name}
+                    </Typography>
+                  ) : null}
+                  {event.project ? (
+                    <Typography variant="caption" className="font-semibold">
+                      {event.project.name}
+                    </Typography>
+                  ) : null}
+                </Box>
               </Paper>
             ))}
           </div>

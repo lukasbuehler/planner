@@ -5,6 +5,7 @@ import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 
 import TasksView from "@/components/TasksView";
+import ProjectOverviewList from "@/components/ProjectOverviewList";
 
 export default function DayOverviewLayout({
   children,
@@ -16,9 +17,7 @@ export default function DayOverviewLayout({
       {/* Side Bar */}
       <Grid item sx={{ display: { xl: "block", xs: "none" } }} xl={3}>
         <Item className="h-full">
-          <Button>New Task</Button>
-          <Typography variant="h6">Projects</Typography>
-          <Typography variant="h6">Study Buddies</Typography>
+          <ProjectOverviewList></ProjectOverviewList>
         </Item>
       </Grid>
 

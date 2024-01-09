@@ -7,7 +7,7 @@ export default abstract class AbstractTrackService extends AbstractService {
     end: Date
   ): Promise<Event[]>;
 
-  abstract getAllProjects(): Promise<any>;
+  abstract getAllProjectsList(): Promise<any>;
 
   abstract getCurrentActivity(): Promise<Event | null>;
 }

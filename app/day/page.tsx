@@ -18,6 +18,7 @@ import { ButtonBase, Popover } from "@mui/material";
 import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 import dayjs, { Dayjs } from "dayjs";
 import TogglTrack from "@/lib/track/TogglTrack";
+import Project from "@/models/Project";
 
 export default function DayOverview() {
   const now = new Date();
@@ -34,6 +35,7 @@ export default function DayOverview() {
   const [selectedDay, setSelectedDay] = useState<Date>(today);
   const [plannedEvents, setPlannedEvents] = useState<Event[]>([]);
   const [trackedEvents, setTrackedEvents] = useState<Event[]>([]);
+  const [projects, setProjects] = useState<Project[]>([]);
 
   const pathname = usePathname();
 
@@ -67,6 +69,10 @@ export default function DayOverview() {
     if (!toggl.isAuthenticated()) {
       toggl.authenticate(pathname);
     }
+
+    toggl.getAllProjectsList().then((projects) => {
+      setProjects(projects);
+    });
 
     toggl
       .getAllActivitiesBetweenDates(selectedDay, nextDay)

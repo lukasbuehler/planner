@@ -38,8 +38,14 @@ export default function CurrentlyTracking() {
       {trackingEvent ? (
         <IconButton
           aria-label="fingerprint"
-          color="primary"
-          className="bg-neutral-700"
+          style={
+            trackingEvent !== null && trackingEvent.project
+              ? {
+                  color: trackingEvent.project.color,
+                  backgroundColor: trackingEvent.project.color + "25",
+                }
+              : undefined
+          }
           onClick={() => stopTracking()}
         >
           <Stop />
