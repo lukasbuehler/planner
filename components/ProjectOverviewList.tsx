@@ -26,7 +26,7 @@ export default function ProjectOverviewList({}: ProjectOverviewListProps) {
         Projects
       </Typography>
 
-      <Box className="flex flex-col">
+      <Box className="flex flex-col px-3 pt-2">
         {projectList.map((project) => (
           <Box key={project.id} className="flex items-center mb-2">
             <Box

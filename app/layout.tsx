@@ -43,9 +43,13 @@ export default function RootLayout({
                 flexDirection: { xs: "column", md: "row-reverse" },
               }}
             >
-              <Container maxWidth={false} className="grow">
+              <Container
+                maxWidth={false}
+                className="grow"
+                style={{ width: "calc(100% - 16px)" }}
+              >
                 {/* Logo Panel */}
-                <Grid container spacing={2} className="h-28 w-full">
+                <Grid container spacing={2} className="h-28">
                   <Grid
                     item
                     xs={0}

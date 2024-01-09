@@ -19,6 +19,7 @@ import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 import dayjs, { Dayjs } from "dayjs";
 import TogglTrack from "@/lib/track/TogglTrack";
 import Project from "@/models/Project";
+import Link from "next/link";
 
 export default function DayOverview() {
   const now = new Date();
@@ -117,36 +118,66 @@ export default function DayOverview() {
           <IconButton onClick={decrementDay}>
             <NavigateBefore />
           </IconButton>
-          <ButtonBase
-            className="flex flex-row justify-center rounded-lg p-2"
-            aria-describedby={id}
-            onClick={handleClick}
-          >
-            <Typography variant={"h4"}>{selectedDay.toDateString()}</Typography>
-          </ButtonBase>
-          <Popover
-            id={id}
-            open={open}
-            anchorEl={popoverAnchorEl}
-            onClose={handleClose}
-            anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "center",
-            }}
-            transformOrigin={{
-              vertical: "top",
-              horizontal: "center",
-            }}
-          >
-            <DateCalendar
-              value={dayjs(selectedDay)}
-              onChange={(newDate: Dayjs | null) => {
-                if (newDate) {
-                  setSelectedDay(newDate.toDate());
-                }
+          <Box className="flex flex-row justify-center">
+            <ButtonBase
+              className="rounded-lg p-1"
+              aria-describedby={id}
+              onClick={handleClick}
+            >
+              <Typography variant="h4">
+                {selectedDay.toLocaleDateString("default", {
+                  weekday: "long",
+                }) + ", "}
+                {selectedDay.toLocaleDateString("default", {
+                  day: "numeric",
+                })}
+                .
+              </Typography>
+            </ButtonBase>
+            <Link href={"/month"}>
+              <ButtonBase className="rounded-lg p-1">
+                <Typography variant="h4">
+                  {selectedDay.toLocaleDateString("default", { month: "long" })}
+                </Typography>
+              </ButtonBase>
+            </Link>
+            <Link href={"/year"}>
+              <ButtonBase className="rounded-lg p-1">
+                <Typography variant="h4">
+                  {selectedDay.getFullYear()}
+                </Typography>
+              </ButtonBase>
+            </Link>
+            <Link href={"/week"} className="flex flex-col justify-center ml-5">
+              <ButtonBase className="rounded-lg p-1">
+                <Typography variant="subtitle1">{"Week 2"}</Typography>
+              </ButtonBase>
+            </Link>
+
+            <Popover
+              id={id}
+              open={open}
+              anchorEl={popoverAnchorEl}
+              onClose={handleClose}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "center",
               }}
-            />
-          </Popover>
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "center",
+              }}
+            >
+              <DateCalendar
+                value={dayjs(selectedDay)}
+                onChange={(newDate: Dayjs | null) => {
+                  if (newDate) {
+                    setSelectedDay(newDate.toDate());
+                  }
+                }}
+              />
+            </Popover>
+          </Box>
           <IconButton onClick={incrementDay}>
             <NavigateNext />
           </IconButton>
